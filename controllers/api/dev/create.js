@@ -1,9 +1,9 @@
 const { body } = require('express-validator')
-
+const multer  = require('multer')
 const { Game, Image } = require('../../../models')
 const authenticateCurrentUserByToken = require('../../_helpers/authenticate-current-user-by-token')
 
-const permittedFields = ['name', 'description', 'jobDescription', 'qualification', 'Images.*.url']
+const permittedFields = ['name', 'description', 'jobDescription', 'qualification', "DeveloperId" , 'Images.*.url']
 // const validations = [
 //   body('title').default('').notEmpty().withMessage('Title is Required'),
 //   body('Images.*.name').default('').notEmpty().withMessage('Item Name is Required'),
@@ -12,10 +12,13 @@ const permittedFields = ['name', 'description', 'jobDescription', 'qualification
 
 const apiDevGameCreate = async function (req, res) {
   const { locals: { currentUser } } = res
-  const { body } = req
+  const { body: gameData } = req
 
-  const game = await currentUser.createGame(body, { fields: permittedFields, include: Game.Images })
+  console.log(currentUser)
+
+  const game = await currentUser.createGame({...gameData}, { fields: permittedFields, include: Game.Images })
+
   return res.status(200).json({ game })
 }
 
-module.exports = [authenticateCurrentUserByToken, apiDevGameCreate]
+module.exports = [ multer().none(), apiDevGameCreate,authenticateCurrentUserByToken('json')]

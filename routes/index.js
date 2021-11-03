@@ -6,7 +6,8 @@ const {getTalentByToken} = require('../controllers/_helpers')
 
 router.get('/', require('../controllers/api/welcome'))
 
-router.use('/api', getDeveloperByToken, getTalentByToken, require('./api'))
+router.use('/api', getDeveloperByToken,  require('./api'))
+router.use('/api', getTalentByToken,  require('./api'))
 
 
 
