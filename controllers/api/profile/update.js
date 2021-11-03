@@ -1,5 +1,5 @@
+const MulterParser = require('../../../services/MulterParser')
 const authenticateCurrentUserByToken = require('../../_helpers/authenticate-current-user-by-token')
-// const MulterParser = require('../../../services/MulterParser')
 
 const permittedFields = ['username', 'firstName', 'lastName', 'resume']
 
@@ -8,9 +8,9 @@ const apiUserProfileUpdate = async function (req, res) {
 
     const newInfo = { ...req.body }
 
-  // if (req.file && req.file.location) {
-  //   newInfo.avatar = req.file.location
-  // }
+  if (req.file && req.file.location) {
+    newInfo.resume = req.file.location
+  }
 
   await currentUser.update(newInfo, {field: permittedFields})
 
@@ -18,7 +18,7 @@ const apiUserProfileUpdate = async function (req, res) {
 }
 
 module.exports=[
-  // MulterParser.single('avatar'),
+  MulterParser.single('resume'),
   authenticateCurrentUserByToken,
   apiUserProfileUpdate
 ]

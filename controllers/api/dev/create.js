@@ -1,6 +1,6 @@
 const { body } = require('express-validator')
 
-const { Game } = require('../../../models')
+const { Game, Image } = require('../../../models')
 const authenticateCurrentUserByToken = require('../../_helpers/authenticate-current-user-by-token')
 
 const permittedFields = ['name', 'description', 'jobDescription', 'qualification', 'Images.*.url']
